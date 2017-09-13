@@ -14,6 +14,13 @@ $fromDir = __DIR__ . '/private/lib/Webos/resources/*';
 $toDir   = __DIR__ . '/public/';
 exec("cp {$fromDir} {$toDir} -r");
 
+chdir(__DIR__ . '/private/');
+mkdir('workspaces');
+mkdir('log');
+mkdir('debug');
+
+chdir(__DIR__);
+
 $dirname = __DIR__ . '/public/';
 echo "\n\n";
 echo "You are ready to start! Type following command!: \n\n";
