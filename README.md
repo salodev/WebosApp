@@ -5,6 +5,10 @@ To start your project with Webos, clone it typing
 
 ``git clone https://github.com/salojc2006/WebosApp.git``
 
+now place into new project:
+
+``cd WebosApp``
+
 Since, install all dependencies typing
 
 ``php install.php``
