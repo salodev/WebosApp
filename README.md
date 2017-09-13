@@ -21,3 +21,5 @@ Open a web browser and go to http://localhost:8080
 
 You will see something like a desktop application into your browser. Yes, a desktop application built with PHP and compatible
 with any platform!
+
+![capture](https://user-images.githubusercontent.com/5316253/30359329-6252ac7a-9820-11e7-996f-a623e9f95814.png)
