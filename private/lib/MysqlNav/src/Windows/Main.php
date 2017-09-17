@@ -11,7 +11,7 @@ use salodev\Mysql;
 
 class Main extends Window {
 	
-	protected $_tabsList = [];
+	public $_tabsList = [];
 	
 	public function initialize(array $params = []) {
 		$this->title = 'MysqlNav dev';
@@ -90,10 +90,16 @@ class Main extends Window {
 			return;
 		}
 		
-		$tab = $this->tabs->addTab($dbName, [
+		$tab = $this->tabs->addClosableTab($dbName, [
 			'connection' => $connection,
+			'name' => $dbName,
 		]);
 		$this->_tabsList[$dbName] = $tab;
+		
+		$this->tabs->onClose(function($data) {
+			$tabName = $data['tab']->name;
+			unset($this->_tabsList[$tabName]);
+		});
 		
 		$toolBar = $tab->createToolBar();
 		$toolBar->createTextBox(['placeholder'=>'Search...'])->onChange(function($source, $data) {
@@ -144,8 +150,13 @@ class Main extends Window {
 			return;
 		}
 		
-		$tab = $this->tabs->addTab($tabName);
+		$tab = $this->tabs->addClosableTab($tabName, ['name'=>$tabName]);
 		$this->_tabsList[$tabName] = $tab;
+		
+		$this->tabs->onClose(function($data) {
+			$tabName = $data['tab']->name;
+			unset($this->_tabsList[$tabName]);
+		});
 		
 		$tab->list = $tab->createDataTable();
 		$rs = Mysql::GetData("DESCRIBE {$tableName}");

@@ -3,13 +3,14 @@
 namespace MysqlNav\Windows\Connections;
 
 use Webos\Visual\Window;
+use salodev\Mysql;
 
 class Add extends Window { 
 	
 	public function initialize(array $params = []) {
 		$this->title = 'Add connection';
 		
-		$this->createTextBox('Name', 'name', ['width'=>150, 'labelWidth'=>100]);
+		$this->createTextBox('Name', 'name', ['width'=>150, 'labelWidth'=>100, 'value'=>'Localhost']);
 		$this->createTextBox('Host', 'host', ['value'=>'localhost']);
 		$this->createTextBox('User', 'user', ['value'=>'root']);
 		$this->createTextBox('Pass', 'pass');
@@ -17,7 +18,14 @@ class Add extends Window {
 		
 		$this->createWindowButton('Test Connection...')->onClick(function() {
 			$this->waitWindow('Testing...', function() {
-				
+				$data = $this->getFormData();
+				$host = $data['host'];
+				$user = $data['user'];
+				$pass = $data['pass'];
+				$db   = $data['db'  ];
+				Mysql::SetDBConnection($host, $user, $pass, $db);
+				Mysql::Connect();
+				$this->messageWindow('Connection was successful!');
 			});
 		});
 		$this->createWindowButton('Create');
