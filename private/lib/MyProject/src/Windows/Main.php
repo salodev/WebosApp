@@ -25,6 +25,10 @@ class Main extends Window {
 		$button->createItem('Open simple window')->onClick(function() {
 			$this->openWindow(Example::class);
 		});
+		$button->createSeparator();
+		$button->createItem('Start MysqlNav')->onClick(function() {
+			$this->getApplication()->getWorkSpace()->startApplication('MysqlNav\App');
+		});
 	}
 	
 	public function createMenu2() {		
