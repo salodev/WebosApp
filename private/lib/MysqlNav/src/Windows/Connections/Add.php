@@ -23,8 +23,8 @@ class Add extends Window {
 				$user = $data['user'];
 				$pass = $data['pass'];
 				$db   = $data['db'  ];
-				Mysql::SetDBConnection($host, $user, $pass, $db);
-				Mysql::Connect();
+				$connection = new \salodev\Mysql\Connection($host, $user, $pass, $db);
+				$connection->connect();
 				$this->messageWindow('Connection was successful!');
 			});
 		});

@@ -62,5 +62,8 @@ class Main extends Window {
 		$button->createItem('MultiTab')->onClick(function() {
 			$this->openWindow(MultiTab::class);
 		});
+		$button->createItem('Html Container')->onClick(function() {
+			$this->openWindow(Html::class);
+		});
 	}
 }

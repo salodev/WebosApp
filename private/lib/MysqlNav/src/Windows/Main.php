@@ -27,13 +27,14 @@ class Main extends Window {
 			$this->getApplication()->finish();
 		});
 		
-		
 		$this->tree = $this->createTree([
 			'top'   => 30,
 			'width' => 200,
 			'left'  => 0,
 			'bottom' => 0,
 		]);
+		// $this->height = null;
+		//$this->tree->height = null;
 		
 		$this->tabs = $this->createTabsFolder([
 			'top'   => 30,
@@ -102,7 +103,7 @@ class Main extends Window {
 		});
 		
 		$toolBar = $tab->createToolBar();
-		$toolBar->createTextBox(['placeholder'=>'Search...'])->onChange(function($source, $data) {
+		$toolBar->createTextBox(['placeholder'=>'Search...'])->onLeaveTyping(function($source, $data) {
 			$value = $data['value'];
 			$tab = $source->getParentByClassName(TabFolder::class);
 			$rs = Mysql::GetData($value ? 

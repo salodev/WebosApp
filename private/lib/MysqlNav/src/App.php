@@ -28,7 +28,9 @@ class App extends Application {
 	}
 
 	public function main(array $data = []) {
-		$this->_connectionsList[] = new Connection('Localhost', 'localhost', 'root', 'root', null);
+		$connection = new Connection('Localhost', 'localhost', 'root', 'root', 'sg_template');
+		$this->_connectionsList[] = $connection;
+		$this->_connection = $connection;
 		$w = $this->openWindow(Main::class);
 	}
 	
@@ -54,11 +56,14 @@ class App extends Application {
 			return;
 		}
 		$conn = $this->_connection;
-		Mysql::SetDBConnection(
+
+		$mysqlConnection = new Mysql\Connection($conn->host, $conn->user, $conn->pass, $conn->db);
+		Mysql::AddConnection('default', $mysqlConnection);
+		/*Mysql::SetDBConnection(
 			$conn->host, 
 			$conn->user, 
 			$conn->pass, 
 			$conn->db
-		);
+		);*/
 	}
 }
