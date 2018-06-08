@@ -29,6 +29,10 @@ class Main extends Window {
 		$button->createItem('Start MysqlNav')->onClick(function() {
 			$this->getApplication()->getWorkSpace()->startApplication('MysqlNav\App');
 		});
+		$button->createSeparator();
+		$button->createItem('Start BoardsApp')->onClick(function() {
+			$this->getApplication()->getWorkSpace()->startApplication('BoardsApp\App');
+		});
 	}
 	
 	public function createMenu2() {		
@@ -64,6 +68,9 @@ class Main extends Window {
 		});
 		$button->createItem('Html Container')->onClick(function() {
 			$this->openWindow(Html::class);
+		});
+		$button->createItem('Boards')->onClick(function() {
+			$this->openWindow(Boards::class);
 		});
 	}
 }

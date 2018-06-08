@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(dirname(__FILE__)) . '/private/start.php');
 
-use Webos\Service\Implementation;
+use Webos\Implementations\Service;
 
 
-Implementation::Start('MyProject\App', [], 'login.php', !empty($_REQUEST['debug']));
+Service::Start('MyProject\App', [], !empty($_REQUEST['debug']));
