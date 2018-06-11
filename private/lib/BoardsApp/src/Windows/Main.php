@@ -4,6 +4,9 @@ namespace BoardsApp\Windows;
 
 use Webos\Visual\Controls\HtmlContainer;
 use Webos\Visual\Windows\Application as Window;
+use Webos\Visual\Controls\TextBox;
+use Webos\Visual\Controls\ComboBox;
+use BoardsApp\Windows\Issues\AddComment;
 use salodev\Mysql;
 
 class Main extends Window {
@@ -26,8 +29,8 @@ class Main extends Window {
 		$menuHelp->createItem('Open Manual');
 		$menuHelp->createItem('About App');
 		
-		$this->splitVertical();
-		$this->rightPanel->splitHorizontal();
+		$this->splitVertical(200);
+		$this->rightPanel->splitHorizontal(200);
 		
 		$this->tree = $this->leftPanel->createTree([
 			'top'   => 0,
@@ -38,6 +41,16 @@ class Main extends Window {
 		
 		
 		$t = $this->rightPanel->topPanel->createToolBar();
+		$t->createObject(TextBox::class, ['width'=>150,'placeholder'=>'search text...']);
+		$t->createObject(ComboBox::class, [
+			'width'=>170,
+			'options' => [
+				'current' => 'CURRENT BOARD',
+				'all'     => 'ALL BOARDS',
+			],
+			'assoc' => true,
+		]);
+		$t->addButton('Search');
 		$t->addButton('+ Board');
 		$t->addButton('+ Issue');
 		
@@ -53,13 +66,21 @@ class Main extends Window {
 			$this->refreshPreview($data);
 		});
 		
-		$this->preview = $this->rightPanel->bottomPanel->createObject(HtmlContainer::class, [
+		$this->rightPanel->bottomPanel->splitVertical(-350);
+		$this->preview = $this->rightPanel->bottomPanel->leftPanel->createObject(HtmlContainer::class, [
 			'top' => 0,
 			'bottom' => 0,
 			'left' => 0,
 			'right' => 0,
 			'overflow-x'=>'scroll',
 		]);
+		$details = $this->details = $this->rightPanel->bottomPanel->rightPanel;		$details = $this->details;
+		$details->createLabelBox('Created by',      'owner.name',   ['labelWidth'=>120,'width'=>220,'enabled'=>false]);
+		$details->createLabelBox('Creation time',   'creationTime'  );
+		$details->createLabelBox('Priority',        'priority.text' );
+		$details->createLabelBox('Status',          'status'        );
+		$details->createLabelBox('Taken by',        'takenBy.name'  );
+		$details->createLabelBox('Dedication time', 'dedicationTime');
 		
 		$this->createNodes();
 		$this->refreshList();
@@ -164,14 +185,26 @@ class Main extends Window {
 	public function refreshPreview(array $data) {
 		$preview = $this->preview;
 		$preview->removeChilds();
-		
+		$preview->modified();
 		$preview->h2($data['title']);
 		$preview->a($data['section'] . ' &gt; ' . $data['subsection'])->onClick(function() {
 			$this->messageWindow('Click en el titulo');
 		});
+		$preview->br();
+		$preview->createButton('Close')->width(50);
+		$preview->createButton('Done')->width(50)->left(65);
+		$preview->createButton('Move')->width(50)->left(120);
+		$preview->createButton('Assign To')->width(80)->left(175);
+		$preview->createButton('Attach File')->width(80)->left(260);
+		$preview->createButton('Edit')->width(50)->left(345);
+		$preview->br();
 		$preview->p($data['text']);
 		foreach($data['comments'] as $comment) {
 			$preview->blockquote("<b>{$comment['name']}</b>: {$comment['text']}");
 		}
+		$preview->createButton('Comentar')->left(50)->width(80)->openWindow(AddComment::class, [
+			'issueID' => 0,
+		]);
+		$this->details->setFormData($data);
 	}
 }
