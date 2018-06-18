@@ -9,7 +9,7 @@ class AddComment extends Window {
 	public function initialize(array $params = []) {
 		$this->title = 'Add comment for issue..';
 		$this->width=440;
-		$this->createObject(TextBox::class, [
+		$t = $this->createObject(TextBox::class, [
 			'multiline' => true,
 			'top' => 0,
 			'width' => '100%',
@@ -19,5 +19,16 @@ class AddComment extends Window {
 		$buttonsBar->addButton('Add');
 		$buttonsBar->addButton('Cancel')->closeWindow();
 		$this->height = 200;
+		$t->focus();
+		
+		$this->onKeyEscape(function() {
+			$this->close();
+		});
+		
+		$this->onKeyF1(function() {
+			$this->messageWindow('Apretaste F1')->onKeyEscape(function($source) {
+				$source->close();
+			});
+		});
 	}
 }
