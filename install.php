@@ -18,6 +18,7 @@ println("If you love WebOS, please share your experience with mates");
 println("or contribute on github and gitlab.");
 println();
 println("Initializing installation...");
+println();
 
 chdir(__DIR__ . '/private/lib/');
 
@@ -32,25 +33,24 @@ println();
 
 println("Completing instalation");
 println("============================================");
-echo "creating directoy for 'Webos'.........";
+println("creating directoy for 'Webos'...");
 chdir(__DIR__ . '/private/lib/Webos');
-echo "ok\n";
-echo "pulling files.........................";
-exec('git pull');
-echo "ok\n";
-echo "creating directoy for 'salodev'.......";
-chdir(__DIR__ . '/private/lib/salodev');
-echo "ok\n";
-echo "pulling files.........................";
-exec('git pull');
-echo "ok\n";
 
-echo "creating implementation directories...";
+println("pulling files...");
+exec('git pull');
+
+println("creating directoy for 'salodev'...");
+chdir(__DIR__ . '/private/lib/salodev');
+
+println("pulling files...");
+exec('git pull');
+
+
+println("creating implementation directories...");
 chdir(__DIR__ . '/private/');
 mkdir('workspaces');
 mkdir('log');
 mkdir('debug');
-echo "ok\n";
 
 chdir(__DIR__);
 
@@ -59,11 +59,11 @@ println();
 println("INSTALLATION COMPLETE!");
 println();
 println();
-println("You are ready to start! Type following command!:");
+println("You are ready to start! Type following command:");
 println();
 println("sudo php -S localhost:8080 {$dirname}/index.php");
 println();
-println("To login into implementation, use these credentials_");
+println("To login into implementation, use these credentials:");
 println("user: root");
 println("pass: root");
 println();
