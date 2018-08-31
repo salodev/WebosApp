@@ -20,14 +20,14 @@ class Main extends Window {
 		
 		$menuApp->createItem('My Account');
 		$menuApp->createItem('Exit')->finishApplication();
-		$menuConfig->createItem('Database')->openWindow(Configuration\Database::class);
-		$menuConfig->createItem('Users');
-		$menuConfig->createItem('Boards');
+		$menuConfig->createItem('Database'   )->openWindow(Configuration\Database::class);
+		$menuConfig->createItem('Users'      );
+		$menuConfig->createItem('Boards'     );
 		$menuConfig->createItem('Preferences');
 		
 		$menuHelp->createItem('Contact Support');
-		$menuHelp->createItem('Open Manual');
-		$menuHelp->createItem('About App');
+		$menuHelp->createItem('Open Manual'    );
+		$menuHelp->createItem('About App'      );
 		
 		$this->splitVertical(200);
 		$this->rightPanel->splitHorizontal(200);
@@ -41,7 +41,7 @@ class Main extends Window {
 		
 		
 		$t = $this->rightPanel->topPanel->createToolBar();
-		$t->createObject(TextBox::class, ['width'=>150,'placeholder'=>'search text...']);
+		$t->createObject(TextBox::class, ['width'=>150,'placeholder'=>'search text...'])->captureTyping(true);
 		$t->createObject(ComboBox::class, [
 			'width'=>170,
 			'options' => [
@@ -52,7 +52,9 @@ class Main extends Window {
 		]);
 		$t->addButton('Search');
 		$t->addButton('+ Board');
-		$t->addButton('+ Issue');
+		$t->addButton('+ Issue')->onClick(function() {
+			$this->openWindow(Issues\Create::class);
+		});
 		
 		$this->list = $this->rightPanel->topPanel->createDataTable();
 		
@@ -66,27 +68,28 @@ class Main extends Window {
 			$this->refreshPreview($data);
 		});
 		
-		$this->rightPanel->bottomPanel->splitVertical(-350);
+		$this->rightPanel->bottomPanel->splitVertical(-300, false);
 		$previewPanel = $this->rightPanel->bottomPanel->leftPanel;
 		$tb = $previewPanel->createToolBar();
-		$tb->addButton('Close')->width(50);
-		$tb->addButton('Done')->width(50);
-		$tb->addButton('Move')->width(50);
-		$tb->addButton('Assign To')->width(80);
+		$tb->addButton('Close'      )->width(50);
+		$tb->addButton('Done'       )->width(50);
+		$tb->addButton('Move'       )->width(50);
+		$tb->addButton('Assign To'  )->width(80);
 		$tb->addButton('Attach File')->width(80);
-		$tb->addButton('Edit')->width(50);
+		$tb->addButton('Edit'       )->width(50);
 		
 		$this->preview = $previewPanel->createObject(HtmlContainer::class, [
-			'top' => 30,
-			'bottom' => 0,
-			'left' => 0,
-			'right' => 0,
-			'overflow-x'=>'scroll',
+			'top'    => 30,
+			'bottom' =>  0,
+			'left'   =>  0,
+			'right'  =>  0,
+			'overflow-x' => 'scroll',
 		]);
-		$details = $this->details = $this->rightPanel->bottomPanel->rightPanel;		$details = $this->details;
+		$details = $this->details = $this->rightPanel->bottomPanel->rightPanel;
+		$details = $this->details;
 		$details->createLabelBox('Created by',      'owner.name',   ['labelWidth'=>120,'width'=>220,'enabled'=>false]);
 		$details->createLabelBox('Creation time',   'creationTime'  );
-		$details->createLabelBox('Priority',        'priority' );
+		$details->createLabelBox('Priority',        'priority'      );
 		$details->createLabelBox('Status',          'status'        );
 		$details->createLabelBox('Taken by',        'takenBy.name'  );
 		$details->createLabelBox('Dedication time', 'dedicationTime');

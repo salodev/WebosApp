@@ -25,8 +25,8 @@ class AddComment extends Window {
 			$this->close();
 		});
 		
-		$this->onKeyF1(function() {
-			$this->messageWindow('Apretaste F1')->onKeyEscape(function($source) {
+		$this->onKeyF5(function() {
+			$this->messageWindow('Apretaste F5')->onKeyEscape(function($source) {
 				$source->close();
 			});
 		});

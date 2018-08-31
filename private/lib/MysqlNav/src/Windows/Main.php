@@ -27,21 +27,13 @@ class Main extends Window {
 			$this->getApplication()->finish();
 		});
 		
-		$this->tree = $this->createTree([
-			'top'   => 30,
-			'width' => 200,
-			'left'  => 0,
-			'bottom' => 0,
-		]);
+		$this->splitVertical();
+		
+		$this->tree = $this->leftPanel->createTree();
 		// $this->height = null;
 		//$this->tree->height = null;
 		
-		$this->tabs = $this->createTabsFolder([
-			'top'   => 30,
-			'left' => 205,
-			'right'  => 0,
-			'bottom' => 0,
-		]);
+		$this->tabs = $this->rightPanel->createTabsFolder();
 		
 		$this->connectionsNode = $this->tree->addNode('Connections');
 		$this->configNode = $this->tree->addNode('Config');
@@ -90,8 +82,8 @@ class Main extends Window {
 			$this->_tabsList[$dbName]->select();
 			return;
 		}
-		
-		$tab = $this->tabs->addClosableTab($dbName, [
+		$title = "{$dbName} (tables)";
+		$tab = $this->tabs->addClosableTab($title, [
 			'connection' => $connection,
 			'name' => $dbName,
 		]);
@@ -152,6 +144,7 @@ class Main extends Window {
 		}
 		
 		$tab = $this->tabs->addClosableTab($tabName, ['name'=>$tabName]);
+		$tab->select();
 		$this->_tabsList[$tabName] = $tab;
 		
 		$this->tabs->onClose(function($data) {
@@ -166,5 +159,23 @@ class Main extends Window {
 		}
 		$rs = Mysql::Table($tableName)->limits(0, 100)->select();
 		$tab->list->rows = $rs;
+		
+		$tab->list->onContextMenu(function($data, $context) {
+			$list = $context['list'];
+			$menu = $data['menu'];
+			if (!$list->hasSelectedRow()) {
+				return;
+			}
+			$fName = $list->getColumnName();
+			$fValue = $list->getSelectedRowData($fName);
+			$menu->createControlItem(\Webos\Visual\Controls\TextBox::class);
+			$menu->createItem("{$fName}  = '{$fValue}'");
+			$menu->createItem("{$fName} != '{$fValue}'");
+			$menu->createItem("{$fName} IS NULL");
+			$menu->createItem("{$fName} IS NOT NULL");
+			$menu->createItem("{$fName} MATCH '{$fValue}'");
+		}, true, [
+			'list' => $tab->list,
+		]);
 	}
 }
