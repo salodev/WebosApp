@@ -50,7 +50,7 @@ echo "ok\n";
 
 chdir(__DIR__);
 
-$dirname = __DIR__ . '/public/';
+$dirname = __DIR__ . '/public';
 echo "\n\n";
 echo "You are ready to start! Type following command!: \n\n";
 echo "sudo php -S localhost:8080 {$dirname}/index.php\n\n";
