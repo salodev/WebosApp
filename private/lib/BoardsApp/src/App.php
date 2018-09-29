@@ -8,9 +8,13 @@ namespace BoardsApp;
 
 use Webos\Application;
 use BoardsApp\Windows\Main;
+use BoardsApp\Model\Users\Users;
+use BoardsApp\Model\Users\User;
 use salodev\Mysql;
 
 class App extends Application {
+	
+	private $_user = null;
 	
 	public function getName(): string {
 		return 'Boards and Tasks';
@@ -25,6 +29,9 @@ class App extends Application {
 	}
 
 	public function main(array $data = []) {
+		$this->setup();
+		$this->authUser();
+		
 		$w = $this->openWindow(Main::class);
 	}
 	
@@ -33,8 +40,21 @@ class App extends Application {
 	}
 	
 	public function setDBConnection() {
-		return;
-		$mysqlConnection = new Mysql\Connection($conn->host, $conn->user, $conn->pass, $conn->db);
+		$mysqlConnection = new Mysql\Connection('localhost', 'root', 'root', 'boards_app');
 		Mysql::AddConnection('default', $mysqlConnection);
+	}
+	
+	public function authUser() {
+		$userName = $this->getWorkSpace()->getName();
+		$user = Users::GetByUserName($userName);
+		$this->setUser($user);
+	}
+	
+	public function setUser(User $user) {
+		$this->_user = $user;
+	}
+	
+	public function getUser(): User {
+		return $this->_user;
 	}
 }

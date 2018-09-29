@@ -1,4 +1,4 @@
-MyProject is bootstrap for your application with Whebos.
+MyProject is bootstrap for your application with WebOS.
 
 Feel free to add classes as you need, but first take a few minutes to know some
 guidelines.
@@ -45,7 +45,7 @@ private/start.php      | Look and modify
                        | by 
                        | Implementation::$dev = false;
                        | 
-public/login.php       | Create a form that fill 'username' key
+public/index.php       | Create a form that fill 'username' key
                        | into $_SESSION variable with a validated user.
                        |
 

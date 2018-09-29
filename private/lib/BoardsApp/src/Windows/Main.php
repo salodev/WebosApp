@@ -18,11 +18,16 @@ class Main extends Window {
 		$menuConfig = $this->menuBar->createButton('Configuration');
 		$menuHelp   = $this->menuBar->createButton('Help!');
 		
-		$menuApp->createItem('My Account');
+		$menuApp->createItem('My Account')->openWindow(Account::class);
 		$menuApp->createItem('Exit')->finishApplication();
+		$menuApp->createItem('RestartApp')->onClick(function() {
+			$app = $this->getApplication();
+			$app->finish();
+			$app->getWorkSpace()->startApplication(get_class($app), $app->getParams());
+		});
 		$menuConfig->createItem('Database'   )->openWindow(Configuration\Database::class);
-		$menuConfig->createItem('Users'      );
-		$menuConfig->createItem('Boards'     );
+		$menuConfig->createItem('Users'      )->openWindow(Users\UserList::class);
+		$menuConfig->createItem('Boards'     )->openWindow(Boards\BoardList::class);
 		$menuConfig->createItem('Preferences');
 		
 		$menuHelp->createItem('Contact Support');

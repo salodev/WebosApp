@@ -1,11 +1,13 @@
 <?php
+
 require_once(dirname(dirname(__FILE__)) . '/private/start.php');
 
 use Webos\Implementations\Service;
 use Webos\Implementations\Authentication;
 Service::$dev = true;
 
-Service::SetApplication('MyProject\App', []);
+// Service::SetApplication('Bootstrap\App', []);
+Service::SetApplication('BoardsApp\App', []);
 
 Authentication::SetLoginFn(function ($username, $password) {
 	return $username=='root' && $password=='root';
